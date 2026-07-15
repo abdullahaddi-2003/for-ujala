@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Ujala ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Gochi+Hand&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            /* Soft Pinkish Textured/Hand-made paper theme */
+            background-color: #fff0f5;
+            background-image: 
+                linear-gradient(rgba(255, 182, 193, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 182, 193, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px; /* Grid notebook paper feel */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Caveat', cursive;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Password Lock Screen Overlay */
+        #password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffe4e1; /* Soft pink */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Higher than intro */
+            transition: opacity 1s ease, transform 1s ease;
+            padding: 20px;
+        }
+
+        #password-overlay.fade-out {
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
+
+        .lock-card {
+            background: #fff;
+            border: 3px dashed #ff4fa8;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 5px 5px 0px rgba(255, 79, 168, 0.15);
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .lock-card h3 {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.8rem;
+            color: #ff4fa8;
+            margin: 0 0 15px 0;
+        }
+
+        .lock-card input {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            width: 80%;
+            padding: 8px 15px;
+            border: 2px dashed #ffb6c1;
+            border-radius: 12px;
+            text-align: center;
+            outline: none;
+            color: #5c303c;
+            background-color: #fffbdf;
+            margin-bottom: 15px;
+        }
+
+        .lock-card button {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.3rem;
+            background-color: #ff4fa8;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 79, 168, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .lock-card button:active {
+            transform: scale(0.95);
+        }
+
+        .error-msg {
+            color: #ff3333;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            min-height: 20px;
+            font-weight: bold;
+        }
+
+        /* 1. Introductory Big Name Overlay */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffe4e1; /* Soft pink */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        #intro-overlay.fade-out {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        .huge-name {
+            font-family: 'Gochi Hand', cursive;
+            font-size: 3.5rem;
+            color: #ff4fa8;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(255, 79, 168, 0.15);
+            text-align: center;
+            padding: 20px;
+            animation: floatName 3s ease-in-out infinite;
+        }
+
+        .tap-to-enter {
+            font-size: 1.5rem;
+            color: #b07289;
+            margin-top: 20px;
+            animation: pulseText 1.5s infinite;
+        }
+
+        /* 2. Chat Paper Diary Header */
+        .chat-header {
+            background-color: #ffd1dc; /* Soft hand-cut chart paper look */
+            padding: 18px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 3px dashed #ffb6c1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px dashed #ff4fa8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+
+        .user-info h2 {
+            margin: 0;
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.3rem;
+            color: #ff4fa8;
+            letter-spacing: 0.5px;
+        }
+
+        .user-info p {
+            margin: 2px 0 0 0;
+            font-size: 1.1rem;
+            color: #9e6d7f;
+            font-weight: bold;
+        }
+
+        /* Chat Date Stamp */
+        .date-stamp {
+            align-self: center;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px dashed #ffb6c1;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            color: #8a5366;
+            margin: 10px 0;
+            font-family: 'Gochi Hand', cursive;
+        }
+
+        /* 3. Notebook Chat Container */
+        .chat-container {
+            flex: 1;
+            padding: 10px 20px 25px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 80px;
+        }
+
+        /* Message Bubbles styled like torn sticky notes */
+        .message {
+            max-width: 85%;
+            padding: 12px 18px;
+            font-size: 1.45rem;
+            line-height: 1.3;
+            position: relative;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+            opacity: 0;
+            transform: scale(0.85);
+            box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Left Side: Sent by You */
+        .message.sent {
+            background-color: #fffbdf; /* Pastel yellow sticky note */
+            align-self: flex-end;
+            border: 2px solid #e6dfb8;
+            border-radius: 18px 18px 2px 18px;
+            color: #4a3e1d;
+            transform-origin: bottom right;
+        }
+
+        /* Sticky Tape effect on top of messages */
+        .message.sent::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            width: 50px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 1px dashed #ccc;
+            border-right: 1px dashed #ccc;
+            transform: rotate(-3deg);
+        }
+
+        /* Right Side: Received / Her side simulated */
+        .message.received {
+            background-color: #ffe6eb; /* Pastel pink sticky note */
+            align-self: flex-start;
+            border: 2px solid #ffd1dc;
+            border-radius: 18px 18px 18px 2px;
+            color: #5c303c;
+            transform-origin: bottom left;
+        }
+
+        .message.received::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            width: 50px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 1px dashed #ccc;
+            border-right: 1px dashed #ccc;
+            transform: rotate(3deg);
+        }
+
+        /* Typing Indicator inside note style */
+        .typing-indicator {
+            align-self: flex-end;
+            background-color: #fffbdf;
+            border: 2px solid #e6dfb8;
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: none;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #b0a473;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.3s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Tap Helper Floating Text */
+        .tap-prompt {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff4fa8;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(255, 79, 168, 0.3);
+            pointer-events: none;
+            z-index: 100;
+            animation: pulseText 1.5s infinite;
+            font-family: 'Gochi Hand', cursive;
+        }
+
+        /* Keyframes */
+        @keyframes floatName {
+            0%, 100% { transform: translateY(0) rotate(1deg); }
+            50% { transform: translateY(-12px) rotate(-1deg); }
+        }
+
+        @keyframes popIn {
+            to { opacity: 1; transform: scale(1) rotate(var(--rot, 0deg)); }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-6px); }
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: translate(-50%, 0) scale(1); opacity: 0.9; }
+            50% { transform: translate(-50%, -4px) scale(1.05); opacity: 1; }
+        }
+    </style>
+</head>
+<body onclick="handleClick()">
+
+    <div id="password-overlay" onclick="event.stopPropagation()">
+        <div class="lock-card">
+            <h3>Secret Code Deden Slay Gurllll! 🤫🗝️</h3>
+            <input type="password" id="pass-input" placeholder="Type password here..." onkeypress="handleKeyPress(event)">
+            <br>
+            <button onclick="checkPassword()">Unlock 💖</button>
+            <div class="error-msg" id="error-box"></div>
+        </div>
+    </div>
+
+    <div id="intro-overlay" onclick="closeIntro(event)">
+        <div class="huge-name">Ujalaaaaaaaaaaaa ✨💖</div>
+        <div class="tap-to-enter">Tap on screen to open... 💌</div>
+    </div>
+
+    <div class="chat-header">
+        <div class="avatar">🤖</div>
+        <div class="user-info">
+            <h2>Bhonduuu (BOTTT) 🌸</h2>
+            <p id="online-status">writing notes...</p>
+        </div>
+    </div>
+
+    <div class="chat-container" id="chat-box">
+        <div class="date-stamp">Wednesday, 15-Jul-2026</div>
+    </div>
+
+    <div class="typing-indicator" id="typing-bubble">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="tap-prompt" id="tap-hint">Tap anywhere to read... 🖍️</div>
+
+    <script>
+        // SET YOUR PASSWORD HERE (Convert to lowercase to avoid Case-sensitive issues)
+        const CORRECT_PASSWORD = "2008ujala2008"; 
+
+        function checkPassword() {
+            const userInput = document.getElementById('pass-input').value.trim().toLowerCase();
+            const errorBox = document.getElementById('error-box');
+            const passOverlay = document.getElementById('password-overlay');
+
+            if (userInput === CORRECT_PASSWORD) {
+                passOverlay.classList.add('fade-out');
+                setTimeout(() => {
+                    passOverlay.style.display = 'none';
+                }, 1000);
+            } else {
+                errorBox.innerText = "Bhonduuu says: Wrong Code! 🤖❌";
+                document.getElementById('pass-input').value = "";
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                checkPassword();
+            }
+        }
+
+        function closeIntro(e) {
+            e.stopPropagation(); 
+            const overlay = document.getElementById('intro-overlay');
+            overlay.classList.add('fade-out');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1500);
+        }
+
+        // Deeply personalized story based on your genuine raw emotions!
+        const story = [
+            { type: 'sent', text: "Hii Ujala! 🌸" },
+            { type: 'sent', text: "Aaj bilkul aam sa din hai, koi special occasion nahi hai... par mujhe tumse kuch dil ki baatein kehni thin." },
+            { type: 'received', text: "Acha? Batao, kya baat hai? 😊" },
+            { type: 'sent', text: "Kuch dino se soch raha tha... tum kitni zyada creative ho na! Ek perfect Slay Gurll! ✨" },
+            { type: 'sent', text: "Mera matlab, tumne jo apne haathon se mere liye clay ka pyaara sa sunflower 🌻 banaya tha aur woh haseeeeeen sa letter uffff aur aapki Poni... it was so beautiful!" },
+            { type: 'sent', text: "Aur tumhare sath ki hui dher saari baatein, aur tumhara yeh sky, moon, clouds ☁️ aur barish 🌧️ ke liye deewanapan..." },
+            { type: 'sent', text: "Tum thodi si pagloo zaroor ho, aur Instagram par ghanton doomscrolling karna tumhara fav kaam hai... par tum jaisi bhi ho, sabse pyaari ho!" },
+            { type: 'sent', text: "Upar se jab tum un nail extensions 💅 aur nail paints ka craze dikhaati ho... main bas dekhta reh jaata hoon! 😂" },
+            { type: 'received', text: "Hahaha hey! Doomscrolling ko beech mein mat lao 🤫 Aur main pagloo nahi hoon! But aww, thank you! 🥰" },
+            { type: 'sent', text: "Acha suno... sabse bada thank you toh mujhe is baat ke liye bolna hai..." },
+            { type: 'sent', text: "Jab main apne past trauma se guzar raha tha, tumne hamesha mera sath diya, mujhe wahan se nikala aur ek behtareen pyaari si life dedi." },
+            { type: 'sent', text: "Bhale hi tum FreeFire ki ekdum pro player ho aur main tumhare liye bas ek seedha-saadha 'bottt' hoon 🤖🎮, par tumne sach mein meri poori life badal di." },
+            { type: 'sent', text: "Halaat jo bhi ho Ujala, main hamesha, har mod par tumhare sath khada hoon." },
+            { type: 'received', text: "Suno... tum sach mein mujhe rula doge ab... 🥺😭❤️" },
+            { type: 'sent', text: "Nahi rona bilkul mana hai! Waise, hamesha mere un bekaar songs wale voice clips ko bhi jhelne ke liye shukriya jo main gaata hoon tumhare liye! 😂🎤" },
+            { type: 'sent', text: "Tumhe Lily flowers 🌸 bohot pasand hain na? Aur haan... main jald hi tumhare liye ek pyaara sa gift lekar aane wala hoon!" },
+            { type: 'sent', text: "Hamesha mere adventures ka partner rehne ke liye thank you. You deserve all the stars, the moon, and the sky! 🌌💖" }
+        ];
+
+        let currentStep = 0;
+        let isTyping = false;
+        const chatBox = document.getElementById('chat-box');
+        const typingBubble = document.getElementById('typing-bubble');
+        const tapHint = document.getElementById('tap-hint');
+        const statusText = document.getElementById('online-status');
+
+        function handleClick() {
+            // Prevent clicks if password overlay is still visible
+            if (document.getElementById('password-overlay').style.display !== 'none') {
+                return;
+            }
+            const overlay = document.getElementById('intro-overlay');
+            if (overlay.style.display !== 'none' && !overlay.classList.contains('fade-out')) {
+                return;
+            }
+            nextMessage();
+        }
+
+        function nextMessage() {
+            if (isTyping || currentStep >= story.length) return;
+
+            if (currentStep === 0) {
+                tapHint.style.display = 'none';
+            }
+
+            const msg = story[currentStep];
+            isTyping = true;
+            
+            statusText.innerText = 'writing... ✏️';
+            typingBubble.style.display = 'flex';
+            chatBox.appendChild(typingBubble);
+            scrollToBottom();
+
+            setTimeout(() => {
+                typingBubble.style.display = 'none';
+                statusText.innerText = 'online';
+                
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `message ${msg.type}`;
+                msgDiv.innerText = msg.text;
+
+                const randomRotate = (Math.random() * 3 - 1.5).toFixed(1); 
+                msgDiv.style.setProperty('--rot', `${randomRotate}deg`);
+
+                chatBox.appendChild(msgDiv);
+                scrollToBottom();
+                
+                currentStep++;
+                isTyping = false;
+
+                if (currentStep === story.length) {
+                    statusText.innerText = 'crafted on Wednesday 🌸';
+                }
+            }, 1400); 
+        }
+
+        function scrollToBottom() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
