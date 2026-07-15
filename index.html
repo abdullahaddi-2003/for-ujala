@@ -111,7 +111,7 @@
             font-weight: bold;
         }
 
-        /* 1. Introductory Big Name Overlay */
+        /* 1. Introductory Big Name Overlay (Perfect Alignment and No Cutting) */
         #intro-overlay {
             position: fixed;
             top: 0;
@@ -121,13 +121,13 @@
             background-color: #ffe4e1; /* Soft pink */
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Vertically centers the content */
-            align-items: center;
+            justify-content: center; 
+            align-items: center; /* Horizontally centers everything */
+            text-align: center; /* Ensures text wrapper centers */
             z-index: 1000;
             transition: opacity 1.5s ease, transform 1.5s ease;
             padding: 20px; 
             box-sizing: border-box;
-            text-align: center;
         }
 
         #intro-overlay.fade-out {
@@ -138,22 +138,32 @@
 
         .huge-name {
             font-family: 'Gochi Hand', cursive;
-            font-size: clamp(2.4rem, 9vw, 4.5rem); /* Responsive but compact enough */
+            font-size: clamp(2.4rem, 10vw, 4rem); /* Responsive font scaling */
             color: #ff4fa8;
             text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(255, 79, 168, 0.15);
             text-align: center;
-            padding: 10px;
-            width: 100%;
-            max-width: 90vw; /* Screen se bahar na jaye */
-            word-wrap: break-word;
             margin: 0;
+            padding: 0 10px;
+            width: 100%;
+            max-width: 100%;
+            word-wrap: break-word;
             animation: floatName 3s ease-in-out infinite;
+        }
+
+        /* Beautiful spacing for emojis below the name */
+        .intro-emojis {
+            font-size: 2.5rem;
+            margin: 15px 0;
+            display: block;
+            text-align: center;
         }
 
         .tap-to-enter {
             font-size: 1.4rem;
             color: #b07289;
-            margin-top: 15px; /* Name ke perfect gap mein niche rahega */
+            margin-top: 20px; 
+            text-align: center;
+            width: 100%;
             animation: pulseText 1.5s infinite;
             pointer-events: none;
         }
@@ -218,7 +228,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding-bottom: 80px;
+            padding-bottom: 120px; /* Safe padding for bottom tap prompt */
         }
 
         /* Message Bubbles styled like torn sticky notes */
@@ -305,22 +315,23 @@
         .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 
-        /* Tap Helper Floating Text */
+        /* Tap Helper Floating Text (Position optimized for mobile bottom screens) */
         .tap-prompt {
             position: absolute;
-            bottom: 30px;
+            bottom: 60px; /* Safe distance from screen bottom edge */
             left: 50%;
             transform: translateX(-50%);
             background: #ff4fa8;
-            padding: 8px 18px;
+            padding: 10px 22px;
             border-radius: 30px;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: #fff;
-            box-shadow: 0 4px 10px rgba(255, 79, 168, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 79, 168, 0.4);
             pointer-events: none;
             z-index: 100;
             animation: pulseText 1.5s infinite;
             font-family: 'Gochi Hand', cursive;
+            white-space: nowrap; /* Prevents wrapping on small screens */
         }
 
         /* Keyframes */
@@ -357,7 +368,8 @@
     </div>
 
     <div id="intro-overlay" onclick="closeIntro(event)">
-        <div class="huge-name">Ujalaaaaaaaaaaaa ✨💖</div>
+        <div class="huge-name">Ujalaaaaaaaaaaaa</div>
+        <div class="intro-emojis">✨💖</div>
         <div class="tap-to-enter">Tap on screen to open... 💌</div>
     </div>
 
