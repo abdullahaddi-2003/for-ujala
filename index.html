@@ -125,6 +125,8 @@
             align-items: center;
             z-index: 1000;
             transition: opacity 1.5s ease, transform 1.5s ease;
+            padding: 20px; /* Safe padding for mobile edges */
+            box-sizing: border-box;
         }
 
         #intro-overlay.fade-out {
@@ -135,11 +137,13 @@
 
         .huge-name {
             font-family: 'Gochi Hand', cursive;
-            font-size: 3.5rem;
+            font-size: clamp(2.2rem, 8vw, 4.5rem); /* Perfectly responsive size */
             color: #ff4fa8;
             text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(255, 79, 168, 0.15);
             text-align: center;
             padding: 20px;
+            width: 100%;
+            word-wrap: break-word;
             animation: floatName 3s ease-in-out infinite;
         }
 
