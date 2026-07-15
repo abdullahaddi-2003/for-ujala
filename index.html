@@ -121,12 +121,13 @@
             background-color: #ffe4e1; /* Soft pink */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; /* Vertically centers the content */
             align-items: center;
             z-index: 1000;
             transition: opacity 1.5s ease, transform 1.5s ease;
-            padding: 20px; /* Safe padding for mobile edges */
+            padding: 20px; 
             box-sizing: border-box;
+            text-align: center;
         }
 
         #intro-overlay.fade-out {
@@ -137,21 +138,24 @@
 
         .huge-name {
             font-family: 'Gochi Hand', cursive;
-            font-size: clamp(2.2rem, 8vw, 4.5rem); /* Perfectly responsive size */
+            font-size: clamp(2.4rem, 9vw, 4.5rem); /* Responsive but compact enough */
             color: #ff4fa8;
             text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(255, 79, 168, 0.15);
             text-align: center;
-            padding: 20px;
+            padding: 10px;
             width: 100%;
+            max-width: 90vw; /* Screen se bahar na jaye */
             word-wrap: break-word;
+            margin: 0;
             animation: floatName 3s ease-in-out infinite;
         }
 
         .tap-to-enter {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: #b07289;
-            margin-top: 20px;
+            margin-top: 15px; /* Name ke perfect gap mein niche rahega */
             animation: pulseText 1.5s infinite;
+            pointer-events: none;
         }
 
         /* 2. Chat Paper Diary Header */
